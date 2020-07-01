@@ -15,7 +15,7 @@ library(tidyverse)
 library(stringr)
 library(rsconnect)
 library(shinyWidgets)
-#setwd("C:/Users/kate/Desktop/Ocean Stewardship/ocean_stew/Shiny app") # Note: Do not run a setwd line when deploying app.
+setwd("C:/Users/kate/Desktop/Ocean Stewardship/OceanInteractions/Shiny app") # Note: Do not run a setwd line when deploying app.
 
 # Load Data
 Direct<-read_excel("final_interactiondata_METADATA_LOCALCOPY_june2020.xlsx",sheet=3)
@@ -136,12 +136,14 @@ ui <- fluidPage(
   br(),
   em(strong("Direct interactions")),em("are those that occur directly between two ocean sectors, and are not mediated by any mediating activity or ecosystem."),
   br(),
-  em(strong("Indirect interactions")),em("are interactions between two ocean sectors mediated by another activity, such as dredging, laying of cables and pipelines, reclaiming land etc."),
-  br(),
-  br(),
   em("Direct interactions are shown with solid lines."),
   br(),
-  em("Interactions where a mediating activity is involved are shown with dashed lines. To see which mediating activity is involved, either hover over the line or see the table at the bottom of the page."),
+  br(),
+  em(strong("Indirect interactions")),em("are interactions between two ocean sectors mediated by another activity, such as dredging, laying of cables and pipelines, reclaiming land etc."),
+  br(),
+  em("Interactions where a mediating activity is involved are shown with dashed lines."),
+  br(),
+  em("To see which mediating activity is involved, either hover over the line or see the table at the bottom of the page."),
   br(),
   br(),
   em("Use the options in the grey area below to select the type of outcome you want to see display. All ocean sectors interactions associated with this outcome type(s) will be displayed."),
@@ -149,7 +151,7 @@ ui <- fluidPage(
   em("Sector/mediating activity/biosphere proxy codes are listed below."),
   br(),
   br(),
-  em("To highlight the involvement of a certain sector, click on the nodes and outcomes will be displayed in different colors (green for enhancement, red for diminishment)."),
+  em(strong("To highlight the involvement of a certain sector(s)")),em("click on the nodes and outcomes will be displayed in different colors (green for enhancement, red for diminishment)."),
   br(),
   em("Hold down CTRL to highlight multiple sectors."),
   br(),
@@ -160,7 +162,6 @@ ui <- fluidPage(
   br(),
   br(),
   em(strong("NOTE:")),em("'Context dependent' in relation to space outcomes indicates that the extent of crowding can range from slight crowding to full exclusion depending on context. In relation to value outcomes it indicates that the impact of the interaction is dependent on value of tourists in a particular context."),
-  
   br(),
   br(),
   sidebarLayout(
