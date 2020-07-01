@@ -4,7 +4,7 @@ Crona, B., Wassénius, E., Lillepold, K., Watson, R., Selig, E.R., Hicks, C., Ö
 
 
 ## Getting Started
-The R scripts contained in this repository highlight the different steps taken to create the figures found in Crona et al, unpublished.
+The R scripts contained in this repository were used to create the figures found in Crona et al, unpublished.
 Accompanying data can be found at: https://doi.org/10.7910/DVN/SI6TUS
 
  
