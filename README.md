@@ -9,8 +9,10 @@ Accompanying data can be found at: https://doi.org/10.7910/DVN/SI6TUS
 
  
  
-* **Figure1a.R** and **Figure1b** are the scripts used to create the networks found in Figure 1 of the manuscript.
-* **Shiny app** is a folder containing the script used to create the interactive network tool, which can be explored here: https://gedb.shinyapps.io/OceanInteractions/
+* **Figure1a.R** and **Figure1b.R** are the scripts used to create the networks found in Figure 1 of the manuscript.
+* **Shiny app** is a folder containing the script used to create the R shiny interactive network tool, which can be explored here: https://gedb.shinyapps.io/OceanInteractions/
 * **Figure2.R** is the script used to create the plots of bidirectional and unidirectional sector interactions.
-* **Figure3.R** TBD.
+* **Figure3.R** TBD
 * **Supplementary** contains the scripts used to create figures shown in the Supplementary material of Crona et al. 
+* FigS3a.R and FigS3a.R are the scripts used to create Figure S3 in the supplementary material, showing the distribution of articles across sectors.
+* Fig S4_S7.R is the script used to create both figures S4 and S7 in the supplementary material, showing the appearance of sectors and mediators over time in the reviewed literature.
