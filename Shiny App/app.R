@@ -15,11 +15,11 @@ library(tidyverse)
 library(stringr)
 library(rsconnect)
 library(shinyWidgets)
-setwd("C:/Users/kate/Desktop/Ocean Stewardship/OceanInteractions/Shiny app") # Note: Do not run a setwd line when deploying app.
+#setwd("C:/Users/kate/Desktop/Ocean Stewardship/OceanInteractions/Shiny app") # Note: Do not run a setwd line when deploying app.
 
 # Load Data
-Direct<-read_excel("final_interactiondata_METADATA_LOCALCOPY_june2020.xlsx",sheet=3)
-Mediators<-read_excel("final_interactiondata_METADATA_LOCALCOPY_june2020.xlsx",sheet=4)
+Direct<-read_excel("Interactions.xlsx",sheet=3)
+Mediators<-read_excel("Interactions.xlsx",sheet=4)
 colnames(Mediators) <- Mediators[1, ] # fix the header on the mediator df
 Mediators <- Mediators[-1, ] 
 Mediators<-Mediators[!is.na(Mediators$`Mediator Node`), ] # exclude blanks rows if there are any.

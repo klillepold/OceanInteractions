@@ -236,7 +236,12 @@ colours<-c("#7ECD9D","#258A4D","#19F570","#190A79","#165CF6","#C2CE61","#CEF244"
            "#F75011", "#E5C07A", "#664C20", "#9112D7", "#E47AE5", "#17879E", "#64E7F2")
 sectorColours<-as.data.frame(cbind(listSectors, colourGroups, colours))
 Correlation<-merge(Correlation, sectorColours, by.x="value", by.y = "listSectors", all.y=F)
-
+Correlation<-Correlation %>% mutate(SectorLabel = case_when(SectorLabel == "Aggregates"~"Aggregate mining",
+                                               SectorLabel ==  "Drilling"~"Fossil fuels energy",
+                                               SectorLabel == "Military"~"Military activities",
+                                               SectorLabel == "Mining"~"Metal/minerals mining",
+                                               SectorLabel == "Renewable Energy (other)"~"Renewable energy",
+                                               TRUE ~ as.character(.$SectorLabel))) # Assign full name to labels as there is room in the legend.
 
 
 tsplot2<-ggplot(data = Correlation, aes(x=YearsInLit, y=NumInts, colour=colours)) +
