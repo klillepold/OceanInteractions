@@ -23,8 +23,6 @@ library(data.table)
 
 Direct<-read_excel("Data_Repository_PART_IIII_OceanInteractionData.xlsx",sheet=2)
 Mediators<-read_excel("Data_Repository_PART_IIII_OceanInteractionData.xlsx",sheet=3)
-colnames(Mediators) <- Mediators[1, ] # fix the header on the mediator df
-Mediators <- Mediators[-1, ] 
 Mediators<-Mediators[!is.na(Mediators$`Mediator Node`), ] # exclude blank rows if there are any.
 
 #Merge into one dataframe 

@@ -17,11 +17,11 @@ library(visNetwork)
 library(gridExtra)
 library(magrittr) 
 library(data.table)
-setwd("C:/Users/kate/Desktop/") #using a local copy just for script writing
-Direct<-read_excel("final_interactiondata_METADATA_LOCALCOPY_june2020.xlsx",sheet=3)
-Mediators<-read_excel("final_interactiondata_METADATA_LOCALCOPY_june2020.xlsx",sheet=4)
-colnames(Mediators) <- Mediators[1, ] # fix the header on the mediator df
-Mediators <- Mediators[-1, ] 
+
+#Import the data from https://doi.org/10.7910/DVN/SI6TUS
+
+Direct<-read_excel("Data_Repository_PART_IIII_OceanInteractionData.xlsx",sheet=2)
+Mediators<-read_excel("Data_Repository_PART_IIII_OceanInteractionData.xlsx",sheet=3)
 Mediators<-Mediators[!is.na(Mediators$`Mediator Node`), ] # exclude blank rows if there are any.
 
 #Merge into one dataframe 
@@ -64,17 +64,17 @@ names(directlinks)[names(directlinks) == 'To'] <- 'to'
 
 
 # Mediated Interactions
-mechlinks<-interactions_full %>% filter(!is.na(med_node))
-mechlinks$From<- ifelse(is.na(mechlinks$From), sub("\\-.*", "", mechlinks$Interaction), mechlinks$From)
-mechlinks$To<- ifelse(is.na(mechlinks$To), sub(".*-", "", mechlinks$Interaction), mechlinks$To)
-mechlinks$EdgeType<-"Indirect"
-names(mechlinks)[names(mechlinks) == 'From'] <- 'from'
-names(mechlinks)[names(mechlinks) == 'To'] <- 'to'
+medlinks<-interactions_full %>% filter(!is.na(med_node))
+medlinks$From<- ifelse(is.na(medlinks$From), sub("\\-.*", "", medlinks$Interaction), medlinks$From)
+medlinks$To<- ifelse(is.na(medlinks$To), sub(".*-", "", medlinks$Interaction), medlinks$To)
+medlinks$EdgeType<-"Indirect"
+names(medlinks)[names(medlinks) == 'From'] <- 'from'
+names(medlinks)[names(medlinks) == 'To'] <- 'to'
 
-#Bind together
-links_full_coll<-rbind(directlinks,mechlinks)
+#Step 3: Bind together
+links_full_coll<-rbind(directlinks,medlinks)
 
-#Have to add an extra edge for bidirectional interactions 
+#Have to add an extra edge to show bidirectional interactions 
 links_full_coll_bi<-links_full_coll[links_full_coll$Bidirectional==1,]
 links_full_coll_bi2<-links_full_coll_bi
 links_full_coll_bi2$from<-links_full_coll_bi$to
@@ -106,15 +106,12 @@ Value$color=c("red", "forestgreen")[as.factor(Value$outcome_direction)]
 ## Specific examples
 ############################################################
 
-# Natcap fish examples - none are bidirectional.
+# Natcap fish examples
 natcap_fish<-subset(Natcap, grepl("fish", Natcap$to))
 natcap_fish_nodes<-as.data.frame(unique(c(natcap_fish$to,natcap_fish$from))) 
 names(natcap_fish_nodes)[1] <- "id"
 natcap_fish_nodes$label<-natcap_fish_nodes$id
 
-
-# igraph version
-#Static igraph version
 natcapfishlinks_igraph<-natcap_fish[,-c(1,2,3)]
 igraphnatcap_fish <- graph_from_data_frame(d=natcapfishlinks_igraph, vertices=natcap_fish_nodes)
 igraphnatcap_fish  <- simplify(igraphnatcap_fish , remove.multiple = F, remove.loops = T) 
@@ -152,13 +149,10 @@ spacesyn_nodes<-as.data.frame(unique(c(spacesyn$to,spacesyn$from)))
 names(spacesyn_nodes)[1] <- "id"
 spacesyn_nodes$label<-spacesyn_nodes$id
 spacesynlinks_igraph<-spacesyn[,-c(1,2,3)]
-spacesynlinks_igraph$Bidirectional<-ifelse(is.na(spacesynlinks_igraph$Bidirectional),0,1)
 igraphspacesyn<- graph_from_data_frame(d=spacesynlinks_igraph, vertices=spacesyn_nodes)
 igraphspacesyn  <- simplify(igraphspacesyn, remove.multiple = F, remove.loops = T) 
 lines<-as.factor(as.character((c(1,2))))
 E(igraphspacesyn)$lty <- lines[as.factor(E(igraphspacesyn)$EdgeType)]
-arrows<-(as.factor(as.numeric((c(2,3)))))
-E(igraphspacesyn)$arrow.mode <- as.numeric(as.character(arrows[as.factor(as.character(E(igraphspacesyn)$Bidirectional))])) #this is ugly but iam rushed
 graph_attr(igraphspacesyn, "layout") <- layout_with_lgl
 plot(igraphspacesyn ,edge.arrow.size=1,vertex.color="lightblue",
      vertex.frame.color="black",
@@ -175,11 +169,8 @@ operations_cables_nodes<-as.data.frame(unique(c(operations_cables$to,operations_
 names(operations_cables_nodes)[1] <- "id"
 operations_cables_nodes$label<-operations_cables_nodes$id
 operations_cableslinks_igraph<-operations_cables[,-c(1,2,3)]
-operations_cableslinks_igraph$Bidirectional<-ifelse(is.na(operations_cableslinks_igraph$Bidirectional),0,1)
 igraphoperations_cables<- graph_from_data_frame(d=operations_cableslinks_igraph, vertices=operations_cables_nodes)
 igraphoperations_cables  <- simplify(igraphoperations_cables, remove.multiple = F, remove.loops = T) 
-arrows<-(as.factor(as.numeric((c(2,3)))))
-E(igraphoperations_cables)$arrow.mode <- as.numeric(as.character(arrows[as.factor(as.character(E(igraphoperations_cables)$Bidirectional))])) #this is ugly but iam rushed
 graph_attr(igraphoperations_cables, "layout") <- layout_with_lgl
 plot(igraphoperations_cables,edge.arrow.size=1,vertex.color="lightblue",
      vertex.frame.color="black",
@@ -187,7 +178,8 @@ plot(igraphoperations_cables,edge.arrow.size=1,vertex.color="lightblue",
 
 
 
-
+# Plots are combined in Inkscape
+#***********************************************
 
 
 

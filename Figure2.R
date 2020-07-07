@@ -11,7 +11,7 @@ library(tidyverse)
 
 #Edit to name of final datasheet, plus correct sheet names. 
 Direct<-read_excel("Data_Repository_PART_IIII_OceanInteractionData.xlsx",sheet=2)
-Mechanisms<-read_excel("Data_Repository_PART_IIII_OceanInteractionData.xlsx",sheet=3,skip=1)
+Mechanisms<-read_excel("Data_Repository_PART_IIII_OceanInteractionData.xlsx",sheet=3)
 
 #**********************************************
 #Analysis of impactors and outcomes
