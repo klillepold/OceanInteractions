@@ -5,15 +5,13 @@
 library(tidyverse)
 
 #********************************************************
-#Import the data ----
-#Import the data from DOI XXXXXXXX
 
-#Remove this once on public repo
-setwd("C:/Users/emmy/Dropbox/Ocean Stewardship Project/DATA") #Remember to change username for different user. 
+#Import the data from https://doi.org/10.7910/DVN/SI6TUS
+
 
 #Edit to name of final datasheet, plus correct sheet names. 
-Direct<-read_excel("final_interactiondata_june2020.xlsx",sheet=2)
-Mechanisms<-read_excel("final_interactiondata_june2020.xlsx",sheet=3,skip=1)
+Direct<-read_excel("Data_Repository_PART_IIII_OceanInteractionData.xlsx",sheet=2)
+Mechanisms<-read_excel("Data_Repository_PART_IIII_OceanInteractionData.xlsx",sheet=3,skip=1)
 
 #**********************************************
 #Analysis of impactors and outcomes
@@ -325,7 +323,6 @@ impacted_plot<-sector_plot_summary %>%
 
 #For saving figures
 #Set your own saving space. 
-setwd("C:/Users/emmy/Dropbox/Ocean Stewardship Project/FIGURES/Individual plots") #Remember to change username for different user. 
 
 mutual_plot
 ggsave("bidirectional_plot.png", dpi=300)

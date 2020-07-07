@@ -17,9 +17,11 @@ library(visNetwork)
 library(gridExtra)
 library(magrittr) 
 library(data.table)
-setwd("C:/Users/kate/Desktop/") #using a local copy just for script writing
-Direct<-read_excel("final_interactiondata_METADATA_LOCALCOPY_june2020.xlsx",sheet=3)
-Mediators<-read_excel("final_interactiondata_METADATA_LOCALCOPY_june2020.xlsx",sheet=4)
+
+#Import the data from https://doi.org/10.7910/DVN/SI6TUS
+
+Direct<-read_excel("Data_Repository_PART_IIII_OceanInteractionData.xlsx",sheet=2)
+Mediators<-read_excel("Data_Repository_PART_IIII_OceanInteractionData.xlsx",sheet=3)
 colnames(Mediators) <- Mediators[1, ] # fix the header on the mediator df
 Mediators <- Mediators[-1, ] 
 Mediators<-Mediators[!is.na(Mediators$`Mediator Node`), ] # exclude blank rows if there are any.
@@ -136,9 +138,9 @@ plot(igraph1a,vertex.color="lightblue", asp=1,
      edge.lty="solid"                           # Line type, could be 0 or "blank", 1 or "solid", 2 or "dashed", 3 or "dotted", 4 or "dotdash", 5 or "longdash", 6 or "twodash"
 )
 
-#EXPORT SIZE W918 H741
 
-
+# Plots are combined in Inkscape
+#***********************************************
 
 
 
