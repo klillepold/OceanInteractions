@@ -108,7 +108,7 @@ ledges <- data.frame(color = c("grey", "grey"),
 
 # Create a cleaner table to show in the shiny app.
 shinytable <- links_full_coll %>% select (-c(rowid,Network_popup, arrows.from.type, arrows.to.type,color.highlight,dashes,smooth,title))%>% 
-  rename(From=from, To=to, `Mediator Node`= med_node, `Positive or Negative` = outcome_direction, `Direct or Indirect` = EdgeType, `Context-Dependent`=context_dependent,Summary = Summary, References = References) 
+  rename(`Outcome Category`=Outcome,`Interaction Type`=Interaction,From=from, To=to, `Mediator Node`= med_node, `Positive or Negative` = outcome_direction, `Direct or Indirect` = EdgeType, `Context-Dependent`=context_dependent,Summary = Summary, References = References) 
 
 sectorCodes
 
@@ -122,9 +122,9 @@ references
 
 # Step 1: Build the UI
 
-buttonchoicelist<-c("Natural Capital Diminishment"="natcap-dimin","Natural Capital Enhancement" ="natcap-enhance", "Operations diminishment"="operation-dimin",
-                    "Operations enhancement"="operation-enhance","Space Competition"="space-crowd","Space synergism"="space-syn",
-                    "Value Enhancement"="value-enhance","Value Diminishment"="value-dimin")
+buttonchoicelist<-c("Natural Capital diminishment"="natcap-dimin","Natural Capital enhancement" ="natcap-enhance", "Operations diminishment"="operation-dimin",
+                    "Operations enhancement"="operation-enhance","Spatial conflicts"="space-crowd","Spatial synergies"="space-syn",
+                    "Touristic Value enhancement"="value-enhance","Touristic Value diminishment"="value-dimin")
 
 ui <- fluidPage(
   tags$head(tags$style(HTML('* {font-family: Calibri;}'))),
@@ -205,7 +205,7 @@ server <- function(input, output,session) {
   
   output$results <- DT::renderDataTable({
     filtered_table <- shinytable %>%
-      filter(Outcome %in% input$OutcomeInput)
+      filter(`Outcome Category` %in% input$OutcomeInput)
     filtered_table})
   
   
@@ -215,4 +215,3 @@ server <- function(input, output,session) {
 }
 
 shinyApp(ui = ui, server = server) #needs to be the last line in the file.
-
