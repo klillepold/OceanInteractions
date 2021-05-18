@@ -1,6 +1,6 @@
 ## Accompanying R Scripts for Crona et al., unpublished.
 
-Crona, B., Wassénius, E., Lillepold, K., Watson, R., Selig, E.R., Hicks, C., Österblom, H., Folke, C., Blasiak, R., Jouffray, J.B. (2020). Sharing the seas: A review and analysis of ocean sector interactions in the Anthropocene. Unpublished manuscript.
+Crona, B., Wassénius, E., Lillepold, K., Watson, R., Selig, E.R., Hicks, C., Österblom, H., Folke, C., Blasiak, R., Jouffray, J.B. (2020). Sharing the seas: A review and analysis of ocean sector interactions in the Anthropocene. Environmental Research Letters. DOI: 
 
 
 ## Getting Started
