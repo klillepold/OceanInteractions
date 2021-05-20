@@ -131,7 +131,10 @@ ui <- fluidPage(
   titlePanel(h1(strong("Ocean sector interactions and outcomes"),
                 h2(em("Database and interactive network tool")))),
   br(), #line break
-  em("This is an interactive network tool to visualize interactions among ocean sectors, and associated categories of outcomes. Interactions and outcomes were identified through a systematic review of peer reviewed literature [INSERT LINK TO PAPER]. "),
+  em("This is an interactive network tool to visualize interactions among ocean sectors, and associated categories of outcomes. Interactions and outcomes were identified through a systematic review of peer reviewed literature."),
+  br(),
+  br(),
+  "Citation: Crona et al 2021", em("Environ. Res. Lett."),tags$a(href="https://doi.org/10.1088/1748-9326/ac02ed", "https://doi.org/10.1088/1748-9326/ac02ed"),
   br(),
   br(),
   em(strong("Direct interactions")),em("are those that occur directly between two ocean sectors, and are not mediated by any mediating activity or ecosystem."),
