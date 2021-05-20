@@ -1,6 +1,6 @@
 ## Accompanying R Scripts for Crona et al., unpublished.
 
-Crona, B., Wassénius, E., Lillepold, K., Watson, R., Selig, E.R., Hicks, C., Österblom, H., Folke, C., Jouffray, J.B., Blasiak, R. (2021). Sharing the seas: A review and analysis of ocean sector interactions. Environmental Research Letters. Available at: https://iopscience.iop.org/article/10.1088/1748-9326/ac02ed
+Crona, B., Wassénius, E., Lillepold, K., Watson, R., Selig, E.R., Hicks, C., Österblom, H., Folke, C., Jouffray, J.B., Blasiak, R. (2021). Sharing the seas: A review and analysis of ocean sector interactions. Environmental Research Letters. Available at: https://doi.org/10.1088/1748-9326/ac02ed
 
 
 ## Getting Started
