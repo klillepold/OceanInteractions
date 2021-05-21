@@ -15,7 +15,7 @@ library(tidyverse)
 library(stringr)
 library(rsconnect)
 library(shinyWidgets)
-#setwd("C:/Users/kate/Desktop/Ocean Stewardship/OceanInteractions/Shiny app") # Note: Do not run a setwd line when deploying app.
+#setwd("./Shiny app") # Note: Do not run a setwd line when deploying app.
 
 # Load Data
 Direct<-read_excel("Interactions.xlsx",sheet=3)
@@ -126,6 +126,11 @@ buttonchoicelist<-c("Natural Capital diminishment"="natcap-dimin","Natural Capit
                     "Operations enhancement"="operation-enhance","Spatial conflicts"="space-crowd","Spatial synergies"="space-syn",
                     "Touristic Value enhancement"="value-enhance","Touristic Value diminishment"="value-dimin")
 
+sectorchoicelist<-c("Aggregate mining"="agg","Desalination" = "des","Telecommunication" ="tel","Military activities"="mil","Bioprospecting"="bio",
+                    "Renewable energy" ="ren","Wave power"="wave","Wind power"="wind","Drilling for oil/gas"="dril","Metal/minerals mining"="min",
+                    "Shipping"="ship","Tourism"="tou","Aquaculture"="aqua","Fishing"="fish","Ecosystem health"="eco","Marine Protected Areas"="mpa",
+                    "Dredging"="dred","Underwater cables"="cab","Underwater pipelines"="pipe","Land reclamation"="rec","Waste disposal"="disp")
+
 ui <- fluidPage(
   tags$head(tags$style(HTML('* {font-family: Calibri;}'))),
   titlePanel(h1(strong("Ocean sector interactions and outcomes"),
@@ -148,10 +153,10 @@ ui <- fluidPage(
   br(),
   strong("USER TIPS:"),
   br(),
+  tags$li(strong("In the grey box below,"),"tick the sectors and outcomes of your interest. Your selected choices will be displayed in the network diagram and in the table below."),
   tags$li(strong("To see which mediating activity is involved"),", either hover over the line or see the table at the bottom of the page."),
-  tags$li(strong("To select the type of outcome you want to display"),"tick the options in the grey area below. All ocean sectors interactions associated with this outcome type(s) will be displayed in the network diagram."),
-  tags$li(strong("To highlight the involvement of a certain sector(s) in the diagram"),"click on the nodes and outcomes will be displayed in different colors (green for enhancement, red for diminishment). Hold down CTRL to highlight multiple sectors."),
-  tags$li(strong("To search for a particular sector in the table,"),"type the sector code in the search field, to the right above the table."),
+  tags$li(strong("To highlight the involvement of a certain sector(s) in the diagram"),"click on the nodes and outcomes, they will be displayed in different colors (green for enhancement, red for diminishment). Hold down CTRL to highlight multiple sectors."),
+  tags$li(strong("Once you have made your selections,"),"you can filter the table on additional details by typing in your search term in the search field to the right above the table."),
   tags$li("Explanations of sector/mediating activity/biosphere proxy codes are listed below."),
   br(),
   "Below the network diagram a table is displayed containing all the different entries in the database, relating to the specific sectors and outcomes chosen for display. The latter may be easier to interpret (than the network diagram) in cases where there are many interactions. ",
@@ -164,7 +169,10 @@ ui <- fluidPage(
   br(),
   sidebarLayout(
     sidebarPanel(
-      checkboxGroupInput(inputId = "OutcomeInput",label = "Outcome",choices = buttonchoicelist),
+      fluidRow(
+        column(5,checkboxGroupInput(inputId = "SectorInput",label = "Select one or multiple sectors",choices = sectorchoicelist)),
+        column(6,offset= 1,checkboxGroupInput(inputId = "OutcomeInput",label = "Select one or multiple outcomes",choices = buttonchoicelist)),
+      ),
       br(),
       tableOutput("codes")),                                                   
     mainPanel(visNetworkOutput("network", height="500"),
@@ -182,12 +190,21 @@ ui <- fluidPage(
 server <- function(input, output,session) {
   
   
+  edges_filtered<-reactive({
+    
+    if(is.null(input$SectorInput)){edges_filtered <- links_full_coll %>% filter(Outcome %in% input$OutcomeInput)}
+    else if(is.null(input$OutcomeInput)){edges_filtered <- links_full_coll %>% filter(str_detect(Interaction, paste(input$SectorInput, collapse="|")))}
+    else{edges_filtered <- links_full_coll %>% filter(str_detect(Interaction, paste(input$SectorInput, collapse="|"))) %>% filter(Outcome %in% input$OutcomeInput)}
+    
+  })
+  
+  
   output$network <- renderVisNetwork({ 
     
-    edges_filtered <- links_full_coll %>% filter(Outcome %in% input$OutcomeInput)
+    edges_filtered <- links_full_coll %>% filter(str_detect(Interaction, paste(input$SectorInput, collapse="|"))) %>% filter(Outcome %in% input$OutcomeInput)
     
     
-    visNetwork(nodes,edges_filtered,height = "120%",width ="20%")%>% 
+    visNetwork(nodes,edges_filtered(),height = "120%",width ="20%")%>% 
       visPhysics(solver = "forceAtlas2Based",stabilization = T) %>%
       visNodes(shape='box',shadow=F,borderWidth=1, scaling = list(label = list(enabled = T,max=30,min=30)),font=list(size=30,bold=T), 
                color=list(background="lightblue",border="black",highlight=list(background="lightblue",border="black")),) %>%
@@ -201,10 +218,19 @@ server <- function(input, output,session) {
     
   })
   
-  output$results <- DT::renderDataTable({
-    filtered_table <- shinytable %>%
-      filter(`Outcome Category` %in% input$OutcomeInput)
-    filtered_table})
+  
+  
+  filtered_table<-reactive({
+    
+    if(is.null(input$SectorInput)){filtered_table <- shinytable %>% filter(`Outcome Category`%in% input$OutcomeInput)}
+    else if(is.null(input$OutcomeInput)){filtered_table <- shinytable %>% filter(str_detect(`Interaction Type`, paste(input$SectorInput, collapse="|")))}
+    else{filtered_table <- shinytable %>% filter(str_detect(`Interaction Type`, paste(input$SectorInput, collapse="|"))) %>% filter(`Outcome Category` %in% input$OutcomeInput)}
+    
+  })
+  
+  
+  
+  output$results <- DT::renderDataTable({filtered_table()})
   
   
   output$codes <-renderTable({sectorCodes})
