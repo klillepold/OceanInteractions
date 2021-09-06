@@ -4,7 +4,7 @@ Crona, B., Wassénius, E., Lillepold, K., Watson, R., Selig, E.R., Hicks, C., Ö
 
 
 ## Getting Started
-The R scripts contained in this repository were used to create the figures found in Crona et al, unpublished.
+The R scripts contained in this repository were used to create the figures found in Crona et al, 2021.
 Accompanying data used for figures 1-3 can be found at: https://doi.org/10.7910/DVN/SI6TUS
 
 * **Figure1a.R** and **Figure1b.R** are the scripts used to create the networks found in Figure 1 of the manuscript.
